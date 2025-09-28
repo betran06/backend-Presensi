@@ -143,6 +143,7 @@ body{ color:var(--text-600); }
   border-color:#2a2235;
   color:#e5e7eb;
 }
+.dark .form-control::-moz-placeholder{ color:#9ca3af; }
 .dark .form-control::placeholder{ color:#9ca3af; }
 .dark .form-control:focus{
   border-color:#8f6bb0;
@@ -150,3 +151,111 @@ body{ color:var(--text-600); }
 }
 .dark .btn-brand{ color:#fff; }
 .dark .link-brand{ color:#b697cf; }
+
+/* ===========================
+   Sidebar
+   =========================== */
+.sidebar {
+  width: 240px;
+  min-height: 100vh;        /* full tinggi layar */
+  position: fixed;          /* selalu nempel kiri */
+  top: 0;
+  left: 0;
+  background: #fff;
+  border-right: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;   /* header → nav → footer */
+  z-index: 1030;
+  transition: left 0.3s ease;
+}
+
+/* Sidebar header */
+.sidebar-header {
+  height: 66px;           /* samakan dengan navbar */
+  display: flex;
+  align-items: center;    /* vertical center text/logo */
+  justify-content: center;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* Sidebar nav links */
+.sidebar .nav-link {
+  color: #374151;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin: 4px 0;
+  transition: background 0.2s, color 0.2s;
+}
+.sidebar .nav-link:hover {
+  background: #f3ecf8;
+  color: #8759A4;
+}
+.sidebar .nav-link.active {
+  background: #8759A4;
+  color: #fff !important;
+  font-weight: 500;
+}
+
+/* Sidebar footer */
+.sidebar-footer {
+  margin-top: auto; /* dorong ke bawah */
+}
+.sidebar-footer .nav-link {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+/* ===========================
+   Main Content
+   =========================== */
+.main {
+  margin-left: 240px;
+  margin-top: 0; /* nggak perlu margin di main container */
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background: #f9fafb;
+  min-height: 100vh;
+}
+
+/* ===========================
+   Navbar (dalam area main)
+   =========================== */
+.navbar {
+  height: 66px !important;
+  border-bottom: 1px solid #e5e7eb;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  z-index: 1020; /* lebih rendah dari sidebar, biar sidebar tetap "menimpa" */
+}
+.navbar .nav-link {
+  color: #374151;
+}
+.navbar .nav-link:hover {
+  color: #8759A4;
+}
+
+/* Avatar bulat */
+.navbar img.rounded-circle {
+  border: 2px solid #e5e7eb;
+}
+
+/* ===========================
+   Responsive (Mobile)
+   =========================== */
+@media (max-width: 768px) {
+  .sidebar {
+    left: -240px; /* sembunyikan default */
+  }
+  .sidebar.active {
+    left: 0; /* tampilkan saat toggle */
+  }
+  .main {
+    margin-left: 0; /* konten full width di mobile */
+  }
+}

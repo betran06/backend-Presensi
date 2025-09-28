@@ -26,19 +26,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $presensis = Presensi::select('presensis.*', 'users.name')
-                        ->join('users', 'presensis.user_id', '=', 'users.id')
-                        ->get();
-        foreach($presensis as $item) {
-            $datetime = Carbon::parse($item->tanggal)->locale('id');
+        $today = Carbon::today();
+        $totalUser = User::count();
+        $hadir = Presensi::whereDate('tanggal', $today)->count();
 
-            $datetime->settings(['formatFunction' => 'translatedFormat']);
-            
-            $item->tanggal = $datetime->format('l, j F Y');
-        }
-        // dd($presensis);
-        return view('home', [
-            'presensis' => $presensis
-        ]);
+        return view('home', compact('totalUser', 'hadir'));
     }
+
 }
