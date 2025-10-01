@@ -20,6 +20,22 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+
+            // Tambahan untuk absensi & admin
+            $table->string('role')->default('user');          // 'admin' | 'user'
+            $table->string('departemen')->nullable();         // nama departemen (opsional)
+            $table->string('jabatan')->nullable();            // jabatan/posisi
+            $table->string('phone')->nullable();              // no hp opsional
+            $table->boolean('is_active')->default(true);      // status akun aktif/nonaktif
+
+             // Device binding & aktivitas login
+            $table->string('device_id')->nullable();          // simpan ID device app (opsional)
+            $table->timestamp('last_login_at')->nullable();   // terakhir login
+            $table->string('last_login_ip', 45)->nullable();  // IPv4/IPv6
+
+            // Profil tambahan
+            $table->string('avatar_url')->nullable();         // foto profil opsional
+            
             $table->timestamps();
         });
     }

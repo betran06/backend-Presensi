@@ -21,7 +21,7 @@ class PresensiController extends Controller
         $item->tanggal = $datetime->format('l, j F Y');
     }
 
-    return view('admin.rekap', compact('presensis'));
+    return view('admin.recap', compact('presensis'));
 }
 
 }

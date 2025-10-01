@@ -12,18 +12,26 @@ class Presensi extends Model
     protected $table = 'presensis';
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
+     * Kolom yang bisa diisi mass assignment.
      */
     protected $fillable = [
-        'id',
         'user_id',
-        'latitude',
-        'longitude',
         'tanggal',
-        'masuk',
-        'pulang',
-        'created_at'
+        'jam_masuk',
+        'latitude_masuk',
+        'longitude_masuk',
+        'jam_pulang',
+        'latitude_pulang',
+        'longitude_pulang',
+        'status',
+        'keterangan',
     ];
+
+    /**
+     * Relasi ke model User.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
