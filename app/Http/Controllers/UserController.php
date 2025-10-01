@@ -4,23 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
-    }
-
-    /**
-     * Tampilkan daftar user.
-     */
-    public function index()
-    {
-        $users = User::latest()->get();
-
-        return view('admin.daftar', compact('users'));
     }
 
     /**
@@ -37,16 +26,18 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name'     => ['required', 'string', 'max:255'],
-            'email'    => ['required', 'email', 'max:255', 'unique:users,email'],
-            'password' => ['required', 'string', 'min:8'],
+            'name'       => ['required', 'string', 'max:255'],
+            'email'      => ['required', 'email', 'max:255', 'unique:users,email'],
+            'password'   => ['required', 'string', 'min:8'],
+            'role'       => ['required', 'in:admin,user'], // default admin atau user
+            'departemen' => ['nullable', 'string', 'max:100'],
+            'jabatan'    => ['nullable', 'string', 'max:100'],
+            'phone'      => ['nullable', 'string', 'max:30'],
+            'is_active'  => ['boolean'],
         ]);
 
-        User::create([
-            'name'     => $validated['name'],
-            'email'    => $validated['email'],
-            'password' => Hash::make($validated['password']),
-        ]);
+        // create user (password otomatis di-hash via mutator di model User)
+        User::create($validated);
 
         return redirect()->route('user.index')
                          ->with('success', 'User berhasil ditambahkan.');
@@ -66,21 +57,22 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $validated = $request->validate([
-            'name'     => ['required', 'string', 'max:255'],
-            'email'    => ['required', 'email', 'max:255', 'unique:users,email,' . $user->id],
-            'password' => ['nullable', 'string', 'min:8'],
+            'name'       => ['required', 'string', 'max:255'],
+            'email'      => ['required', 'email', 'max:255', 'unique:users,email,' . $user->id],
+            'password'   => ['nullable', 'string', 'min:8'],
+            'role'       => ['required', 'in:admin,user'],
+            'departemen' => ['nullable', 'string', 'max:100'],
+            'jabatan'    => ['nullable', 'string', 'max:100'],
+            'phone'      => ['nullable', 'string', 'max:30'],
+            'is_active'  => ['boolean'],
         ]);
 
-        $data = [
-            'name'  => $validated['name'],
-            'email' => $validated['email'],
-        ];
-
-        if (!empty($validated['password'])) {
-            $data['password'] = Hash::make($validated['password']);
+        // kalau password kosong, jangan ubah
+        if (empty($validated['password'])) {
+            unset($validated['password']);
         }
 
-        $user->update($data);
+        $user->update($validated);
 
         return redirect()->route('user.index')
                          ->with('success', 'User berhasil diperbarui.');

@@ -26,11 +26,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $today = Carbon::today();
-        $totalUser = User::count();
-        $hadir = Presensi::whereDate('tanggal', $today)->count();
-
-        return view('home', compact('totalUser', 'hadir'));
+        return view('admin.dashboard');
     }
 
 }
