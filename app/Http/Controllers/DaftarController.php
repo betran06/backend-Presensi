@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 
-class DaftarUserController extends Controller
+class DaftarController extends Controller
 {
     public function __construct()
     {

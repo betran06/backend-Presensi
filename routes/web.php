@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PresensiController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DaftarController;
 
 Route::get('/', function () {
     return redirect('login');
@@ -19,7 +20,7 @@ Route::get('/rekap', [PresensiController::class, 'rekap'])->name('presensi.rekap
 | User CRUD
 |--------------------------------------------------------------------------
 */
-Route::get('/user', [UserController::class, 'index'])->name('user.index');
+Route::get('/user', [DaftarController::class, 'index'])->name('user.index');
 Route::get('/create-user', [UserController::class, 'create'])->name('user.create');
 Route::post('/store-user', [UserController::class, 'store'])->name('user.store');
 Route::get('/user/{user}/edit', [UserController::class, 'edit'])->name('user.edit');
