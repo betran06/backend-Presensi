@@ -150,3 +150,17 @@ body{ color:var(--text-600); }
 }
 .dark .btn-brand{ color:#fff; }
 .dark .link-brand{ color:#b697cf; }
+
+.btn-brand {
+  background-color: #8759A4 !important;
+  border-color: #8759A4 !important;
+  color: #fff !important;
+}
+.btn-brand:hover {
+  background-color: #734a8b !important;
+  border-color: #734a8b !important;
+}
+.bg-brand {
+  background-color: #8759A4 !important;
+}
+

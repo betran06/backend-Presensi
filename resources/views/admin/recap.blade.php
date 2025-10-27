@@ -36,9 +36,7 @@
             <table id="table-rekap" class="table table-hover align-middle w-100">
               <thead class="table-light">
                 <tr>
-                  @if(auth()->user()->role === 'admin')
-                    <th>Nama</th>
-                  @endif
+                  <th>Nama</th>
                   <th>Tanggal</th>
                   <th>Masuk</th>
                   <th>Pulang</th>
@@ -49,17 +47,18 @@
               <tbody>
                 @forelse($presensis as $p)
                   <tr>
-                    @if(auth()->user()->role === 'admin')
-                      <td>{{ $p->user->name ?? '-' }}</td>
-                    @endif
+                    {{-- Nama user --}}
+                    <td>{{ $p->user->name ?? '-' }}</td>
 
                     {{-- Tanggal --}}
-                    <td class="text-nowrap">{{ $p->tanggal_formatted ?? $p->tanggal }}</td>
+                    <td class="text-nowrap">{{ $p->tanggal_formatted ?? $p->tanggal ?? '-' }}</td>
 
-                    {{-- Jam Masuk / Pulang --}}
+                    {{-- Jam Masuk --}}
                     <td class="text-nowrap">
                       {{ $p->jam_masuk ? \Carbon\Carbon::parse($p->jam_masuk)->format('H:i') : '—' }}
                     </td>
+
+                    {{-- Jam Pulang --}}
                     <td class="text-nowrap">
                       {{ $p->jam_pulang ? \Carbon\Carbon::parse($p->jam_pulang)->format('H:i') : '—' }}
                     </td>
@@ -139,7 +138,7 @@
     $('#table-rekap').DataTable({
       responsive: true,
       autoWidth: false,
-      order: [[ {{ auth()->user()->role === 'admin' ? 1 : 0 }}, 'desc' ]],
+      order: [[1, 'desc']], // urut berdasarkan kolom Tanggal
       language: {
         search: "Cari:",
         lengthMenu: "Tampilkan _MENU_ entri",
@@ -149,7 +148,7 @@
         paginate: { previous: "Sebelumnya", next: "Berikutnya" }
       },
       columnDefs: [
-        { targets: [ {{ auth()->user()->role === 'admin' ? 4 : 3 }}, {{ auth()->user()->role === 'admin' ? 5 : 4 }} ], orderable: false },
+        { targets: [4, 5], orderable: false } // Non-sort kolom Lokasi & Status
       ]
     });
   });
